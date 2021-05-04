@@ -39,7 +39,7 @@ int main()
 	Node* head = NULL; // 프로그램 초기 실행시 head = NULL로 설정
 	Node* ptr = NULL;	/* temp */
 
-	printf("[----- 손영재 2018038080 -----\n");
+	printf("[----- 손영재 2018038080 -----]\n");
 	do{
 		printf("\n\n");
 		printf("----------------------------------------------------------------\n");
@@ -211,7 +211,7 @@ int deleteLeafNode(Node* head, int key) // 단말 노드를 제거하는 함수
 		printf("해당 노드가 없습니다.\n"); // 오류 메시지 출력 및 함수 종료
 		return 0;
 	}
-	else if(temp->right!=NULL||temp->right!=NULL) // 입력한 key값과 동일한 노드가 단말 노드가 아닌 경우
+	else if(temp->left!=NULL||temp->right!=NULL) // 입력한 key값과 동일한 노드가 단말 노드가 아닌 경우
 	{
 		printf("해당 노드는 단말 노드가 아닙니다.\n"); // 오류 메시지 출력 및 함수 종료
 		return 0;

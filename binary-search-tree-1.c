@@ -129,7 +129,7 @@ void inorderTraversal(Node* ptr)
 {
 	if (ptr){
 		inorderTraversal(ptr->left);
-		printf("%d", ptr->key);
+		printf("[%d] ", ptr->key);
 		inorderTraversal(ptr->right);
 	}
 }
@@ -137,7 +137,7 @@ void inorderTraversal(Node* ptr)
 void preorderTraversal(Node* ptr)
 {
 		if (ptr){
-		printf("%d", ptr->key);
+		printf("[%d] ", ptr->key);
 		inorderTraversal(ptr->left);
 		inorderTraversal(ptr->right);
 	}
@@ -147,30 +147,100 @@ void postorderTraversal(Node* ptr)
 {
 		inorderTraversal(ptr->left);
 		inorderTraversal(ptr->right);
-		printf("%d", ptr->key);
+		printf("[%d] ", ptr->key);
 }
 
 
 int insert(Node* head, int key)
 {
-	Node* ptr;
 	Node* temp = (Node*)malloc(sizeof(Node*));
+	Node* ptr = head->left;
 	temp->key = key;
 	temp->left = NULL;
 	temp->right = NULL;
-	if(head->left != NULL)
+	if(!ptr)
 	{
-
+		head->left = temp;
+		printf("first node\n");
 	}
 	else
-	head = temp;
+	{
+	while(ptr)
+	{
+		if(key == ptr->key)
+		{
+			printf("BST에 같은 값을 가지는 노드를 추가할 수 없습니다.\n");
+			return 0;
+		}
+		if(key < ptr->key)
+		{
+			printf("key < ptr->key\n");
+			if(ptr->left!=NULL)
+				ptr = ptr->left;
+			else
+			{
+				ptr->left = temp;
+				printf("기존 leaf 노드의 자식노드 추가\n");
+				break;
+			}
+		}	
+		else if(key > ptr->key)
+		{
+			printf("key > ptr->key\n");
+			if(ptr->right!=NULL)
+			{
+			printf("자식노드 존재\n");
+			ptr = ptr->right;
+			}
+			else 
+			{
+				ptr->right = temp;
+				printf("기존 leaf 노드의 자식노드 추가\n");
+				break;
+			}
+		}
+	}
+	}
+
 
 
 }
 
 int deleteLeafNode(Node* head, int key)
 {
-	Node* ptr = searchIterative(head, key);
+	Node* temp = searchIterative(head, key);
+	if(temp == NULL)
+	{
+		printf("해당 노드가 없습니다.\n");
+		return 0;
+	}
+	else if(temp->right!=NULL||temp->right!=NULL)
+	{
+		printf("해당 노드는 단말 노드가 아닙니다.\n");
+		return 0;
+	}
+	Node* prevtemp = head->left;
+	while(prevtemp)
+	{
+		if(prevtemp->left == temp)
+			{
+				prevtemp->left = NULL;
+				return 0;
+			}
+		else if(prevtemp->right == temp)
+			{
+				prevtemp->right = NULL;
+				return 0;
+			}
+
+		if(key < prevtemp->key)
+			prevtemp = prevtemp->left;
+		else prevtemp = prevtemp->right;
+	}
+
+	free(temp);
+
+
 
 }
 
@@ -187,7 +257,7 @@ Node* searchRecursive(Node* ptr, int key)
 
 Node* searchIterative(Node* head, int key)
 {
-	Node* ptr = head;
+	Node* ptr = head->left;
 	while(ptr)
 	{
 		if(key == ptr->key)
@@ -202,7 +272,23 @@ Node* searchIterative(Node* head, int key)
 
 int freeBST(Node* head)
 {
+	Node* temp;
+	if(head->left == NULL && head->right == head)
+		{
+			temp = head->left;
+		}
+	else 
+	{
+		temp = head;
+	}
 
+	if(!temp)
+	{
+		freeBST(temp->left);
+		freeBST(temp->right);
+		free(temp);
+
+	}
 }
 
 
